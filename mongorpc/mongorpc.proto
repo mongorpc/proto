@@ -1,0 +1,46 @@
+// Copyright 2021 MongoRPC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package mongorpc;
+
+option go_package = "github.com/mongorpc/mongorpc;mongorpc";
+
+import "google/api/annotations.proto";
+// import "google/api/httpbody.proto";
+// import "google/protobuf/empty.proto";
+import "mongorpc/object_id.proto";
+import "mongorpc/value.proto";
+
+message GetDocumentRequest {
+  // The database to query
+  string database = 1;
+  // The collection to query
+  string collection = 2;
+  // The document to query
+  mongorpc.ObjectId document_id = 3;
+}
+
+message GetDocumentResponse {}
+
+// MongoRPC
+service MongoRPC {
+  rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
+    option (google.api.http) = {
+      post: "/v1/{database}/{collection}/{document_id}"
+      body: "*"
+    };
+  }
+}
