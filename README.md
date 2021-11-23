@@ -1,1 +1,1 @@
-# proto
+# @mongorpc/proto
