@@ -31,7 +31,7 @@ message GetDocumentRequest {
 }
 
 // InsertDocumentRequest is a special type that is used to represent a insert document request in a MongoDB
-message CreateDocumentRequest {
+message InsertDocumentRequest {
   // The database to insert the document into
   string database = 1;
   // The collection to insert the document into
@@ -48,7 +48,7 @@ service MongoRPC {
       body: "*"
     };
   }
-  rpc CreateDocument(CreateDocumentRequest) returns (mongorpc.ObjectId) {
+  rpc InsertDocument(InsertDocumentRequest) returns (mongorpc.ObjectId) {
     option (google.api.http) = {
       post: "/v1/{database}/{collection}"
       body: "*"
