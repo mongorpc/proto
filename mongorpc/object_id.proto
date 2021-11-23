@@ -19,5 +19,5 @@ package mongorpc;
 option go_package = "github.com/mongorpc/mongorpc;mongorpc";
 
 message ObjectId {
-  bytes id = 1;
+  string hax = 1;
 }
