@@ -19,9 +19,6 @@ package mongorpc;
 option go_package = "github.com/mongorpc/mongorpc;mongorpc";
 
 import "google/api/annotations.proto";
-// import "google/api/httpbody.proto";
-// import "google/protobuf/empty.proto";
-import "mongorpc/object_id.proto";
 import "mongorpc/value.proto";
 
 message GetDocumentRequest {

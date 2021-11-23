@@ -18,43 +18,43 @@ package mongorpc;
 
 option go_package = "github.com/mongorpc/mongorpc;mongorpc";
 
-import "google/protobuf/any.proto";
-import "google/protobuf/struct.proto";
-import "google/protobuf/timestamp.proto";
-import "mongorpc/object_id.proto";
+// Null is a special type that is used to represent a null value in a MongoDB
+enum NullValue {
+  NULL_VALUE = 0;
+}
 
-// `Value` represents a dynamically typed value which can be either
-// null, a number, a string, a boolean, a recursive struct value, or a
-// list of values. A producer of value is expected to set one of these
-// variants. Absence of any variant indicates an error.
-//
-// The JSON representation for `Value` is JSON value.
+// Array is a special type that is used to represent an array value in a MongoDB
+message ArrayValue {
+  repeated Value values = 1;
+}
+
+// Map is a special type that is used to represent a map value in a MongoDB
+message MapValue {
+  map<string, Value> fields = 1;
+}
+
+// Timestamp is a special type that is used to represent a timestamp value in a MongoDB
+message Timestamp {
+  int64 seconds = 1;
+  int32 nanos = 2;
+}
+
+message ObjectId {
+  string id = 1;
+}
+
+// Value is a special type that is used to represent a value in a MongoDB
 message Value {
-  // The kind of value.
-  oneof kind {
-    // Represents a null value.
-    google.protobuf.NullValue null_value = 1;
-    // Boolean value.
-    bool bool_value = 2;
-    // Signed integer value.
-    int64 int64_value = 3;
-    // Unsigned integer value.
-    uint64 uint64_value = 4;
-    // Floating point value.
+  oneof type {
+    int32 integer32_value = 1;
+    int64 integer64_value = 2;
+    bool boolean_value = 3;
+    string string_value = 4;
     double double_value = 5;
-    // UTF-8 string value.
-    string string_value = 6;
-    // Byte string value.
-    bytes bytes_value = 7;
-    // object value.
-    google.protobuf.Any object_value = 8;
-    // Represents a structured value.
-    google.protobuf.Struct struct_value = 9;
-    // Represents a repeated `Value`.
-    google.protobuf.ListValue list_value = 10;
-    // Represent mongodb ObjectId
-    mongorpc.ObjectId object_id_value = 11;
-    // Represent mongodb timestamp
-    google.protobuf.Timestamp timestamp_value = 12;
+    NullValue null_value = 6;
+    ArrayValue array_value = 7;
+    MapValue map_value = 8;
+    ObjectId object_id_value = 9;
+    Timestamp timestamp_value = 10;
   }
 }
