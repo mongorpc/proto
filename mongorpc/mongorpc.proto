@@ -62,6 +62,15 @@ message UpdateDocumentRequest {
   Value document = 4;
 }
 
+message BulkInsertDocumentsRequest {
+  // The database to insert the documents into
+  string database = 1;
+  // The collection to insert the documents into
+  string collection = 2;
+  // The documents to insert
+  repeated mongorpc.Value documents = 3;
+}
+
 // MongoRPC
 service MongoRPC {
   rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
@@ -85,6 +94,12 @@ service MongoRPC {
   rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Value) {
     option (google.api.http) = {
       delete: "/v1/{database}/{collection}/{document_id}"
+      body: "*"
+    };
+  }
+  rpc BulkInsertDocuments(BulkInsertDocumentsRequest) returns (mongorpc.Value) {
+    option (google.api.http) = {
+      post: "/v1/{database}/{collection}/bulk"
       body: "*"
     };
   }
