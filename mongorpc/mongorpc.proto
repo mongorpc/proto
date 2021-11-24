@@ -40,6 +40,16 @@ message InsertDocumentRequest {
   mongorpc.Value document = 3;
 }
 
+// DeleteDocumentRequest is a special type that is used to represent a delete document request in a MongoDB
+message DeleteDocumentRequest {
+  // database name
+  string database = 1;
+  // collection name
+  string collection = 2;
+  // document id
+  mongorpc.ObjectId document_id = 3;
+}
+
 // MongoRPC
 service MongoRPC {
   rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
@@ -51,6 +61,12 @@ service MongoRPC {
   rpc InsertDocument(InsertDocumentRequest) returns (mongorpc.ObjectId) {
     option (google.api.http) = {
       post: "/v1/{database}/{collection}"
+      body: "*"
+    };
+  }
+  rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/{database}/{collection}/{document_id}"
       body: "*"
     };
   }

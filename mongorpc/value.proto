@@ -18,6 +18,8 @@ package mongorpc;
 
 option go_package = "github.com/mongorpc/mongorpc;mongorpc";
 
+message Empty {}
+
 // Null is a special type that is used to represent a null value in a MongoDB
 enum NullValue {
   NULL_VALUE = 0;
