@@ -50,6 +50,18 @@ message DeleteDocumentRequest {
   mongorpc.ObjectId document_id = 3;
 }
 
+// UpdateDocumentRequest is a special type that is used to represent a update document request in a MongoDB
+message UpdateDocumentRequest {
+  // The database to use
+  string database = 1;
+  // The collection to use
+  string collection = 2;
+  // The document to update
+  mongorpc.ObjectId document_id = 3;
+  // Document Values
+  Value document = 4;
+}
+
 // MongoRPC
 service MongoRPC {
   rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
@@ -64,7 +76,13 @@ service MongoRPC {
       body: "*"
     };
   }
-  rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Empty) {
+  rpc UpdateDocument(UpdateDocumentRequest) returns (mongorpc.Value) {
+    option (google.api.http) = {
+      put: "/v1/{database}/{collection}"
+      body: "*"
+    };
+  }
+  rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Value) {
     option (google.api.http) = {
       delete: "/v1/{database}/{collection}/{document_id}"
       body: "*"
