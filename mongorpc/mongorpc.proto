@@ -18,7 +18,6 @@ package mongorpc;
 
 option go_package = "github.com/mongorpc/mongorpc;mongorpc";
 
-import "google/api/annotations.proto";
 import "mongorpc/value.proto";
 
 message GetDocumentRequest {
@@ -107,46 +106,11 @@ message ListenResponse {
 
 // MongoRPC
 service MongoRPC {
-  rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
-    option (google.api.http) = {
-      get: "/v1/{database}/{collection}/{document_id}"
-      body: "*"
-    };
-  }
-  rpc InsertDocument(InsertDocumentRequest) returns (mongorpc.ObjectId) {
-    option (google.api.http) = {
-      post: "/v1/{database}/{collection}"
-      body: "*"
-    };
-  }
-  rpc UpdateDocument(UpdateDocumentRequest) returns (mongorpc.Value) {
-    option (google.api.http) = {
-      put: "/v1/{database}/{collection}"
-      body: "*"
-    };
-  }
-  rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Value) {
-    option (google.api.http) = {
-      delete: "/v1/{database}/{collection}/{document_id}"
-      body: "*"
-    };
-  }
-  rpc BulkInsertDocuments(BulkInsertDocumentsRequest) returns (mongorpc.Value) {
-    option (google.api.http) = {
-      post: "/v1/{database}/{collection}/bulk"
-      body: "*"
-    };
-  }
-  rpc QueryDocuments(QueryDocumentsRequest) returns (mongorpc.Value) {
-    option (google.api.http) = {
-      get: "/v1/{database}/{collection}/query"
-      body: "*"
-    };
-  }
-  rpc Listen(ListenRequest) returns (stream ListenResponse) {
-    option (google.api.http) = {
-      get: "/v1/{database}/{collection}/listen"
-      body: "*"
-    };
-  }
+  rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value);
+  rpc InsertDocument(InsertDocumentRequest) returns (mongorpc.ObjectId);
+  rpc UpdateDocument(UpdateDocumentRequest) returns (mongorpc.Value);
+  rpc DeleteDocument(DeleteDocumentRequest) returns (mongorpc.Value);
+  rpc BulkInsertDocuments(BulkInsertDocumentsRequest) returns (mongorpc.Value);
+  rpc QueryDocuments(QueryDocumentsRequest) returns (mongorpc.Value);
+  rpc Listen(ListenRequest) returns (stream ListenResponse);
 }
