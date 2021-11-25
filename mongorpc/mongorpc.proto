@@ -71,6 +71,23 @@ message BulkInsertDocumentsRequest {
   repeated mongorpc.Value documents = 3;
 }
 
+message QueryDocumentsRequest {
+  // The database to query
+  string database = 1;
+  // The collection to query
+  string collection = 2;
+  // The query to use
+  mongorpc.Value query = 3;
+  // The sort to use
+  mongorpc.Value sort = 4;
+  // The projection to use
+  mongorpc.Value projection = 5;
+  // The skip to use
+  int32 skip = 6;
+  // The limit to use
+  int32 limit = 7;
+}
+
 // MongoRPC
 service MongoRPC {
   rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
@@ -100,6 +117,12 @@ service MongoRPC {
   rpc BulkInsertDocuments(BulkInsertDocumentsRequest) returns (mongorpc.Value) {
     option (google.api.http) = {
       post: "/v1/{database}/{collection}/bulk"
+      body: "*"
+    };
+  }
+  rpc QueryDocuments(QueryDocumentsRequest) returns (mongorpc.Value) {
+    option (google.api.http) = {
+      get: "/v1/{database}/{collection}/query"
       body: "*"
     };
   }
