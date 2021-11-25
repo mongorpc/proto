@@ -60,3 +60,14 @@ message Value {
     Timestamp timestamp_value = 10;
   }
 }
+
+// ChangeStreamOptions represents options that can be used to configure a Watch operation.
+message ChangeStreamOptions {
+  int32 batch_size = 1;
+  bool full_document = 3;
+  mongorpc.Timestamp start_at_operation_time = 4;
+  mongorpc.Timestamp max_await_time_ms = 5;
+  mongorpc.Value resume_after = 6;
+  mongorpc.Value collation = 7;
+  mongorpc.Value start_after = 8;
+}

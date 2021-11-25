@@ -90,6 +90,19 @@ message QueryDocumentsRequest {
   int32 limit = 7;
 }
 
+message ListenRequest {
+  // The database to listen on
+  string database = 1;
+  // The collection to listen on
+  string collection = 2;
+  // $match
+  mongorpc.Value match = 3;
+  // ChangeStreamOptions represents options that can be used to configure a Watch operation.
+  mongorpc.ChangeStreamOptions options = 4;
+}
+
+message ListenResponse {}
+
 // MongoRPC
 service MongoRPC {
   rpc GetDocument(GetDocumentRequest) returns (mongorpc.Value) {
@@ -125,6 +138,12 @@ service MongoRPC {
   rpc QueryDocuments(QueryDocumentsRequest) returns (mongorpc.Value) {
     option (google.api.http) = {
       get: "/v1/{database}/{collection}/query"
+      body: "*"
+    };
+  }
+  rpc Listen(ListenRequest) returns (stream ListenResponse) {
+    option (google.api.http) = {
+      get: "/v1/{database}/{collection}/listen"
       body: "*"
     };
   }
