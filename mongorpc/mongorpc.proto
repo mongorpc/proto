@@ -101,7 +101,9 @@ message ListenRequest {
   mongorpc.ChangeStreamOptions options = 4;
 }
 
-message ListenResponse {}
+message ListenResponse {
+  mongorpc.Value changes = 1;
+}
 
 // MongoRPC
 service MongoRPC {
