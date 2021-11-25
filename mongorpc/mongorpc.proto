@@ -95,8 +95,8 @@ message ListenRequest {
   string database = 1;
   // The collection to listen on
   string collection = 2;
-  // $match
-  mongorpc.Value match = 3;
+  // pipeline
+  repeated mongorpc.Value pipeline = 3;
   // ChangeStreamOptions represents options that can be used to configure a Watch operation.
   mongorpc.ChangeStreamOptions options = 4;
 }
