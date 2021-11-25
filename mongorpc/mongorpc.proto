@@ -60,6 +60,8 @@ message UpdateDocumentRequest {
   mongorpc.ObjectId document_id = 3;
   // Document Values
   Value document = 4;
+  // Replace the document
+  bool replace = 5;
 }
 
 message BulkInsertDocumentsRequest {
