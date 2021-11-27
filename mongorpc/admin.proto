@@ -1,0 +1,106 @@
+// Copyright 2021 MongoRPC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package mongorpc;
+
+option go_package = "github.com/mongorpc/mongorpc;mongorpc";
+
+import "mongorpc/value.proto";
+
+message DropDatabaseRequest {
+  string database = 1;
+}
+
+message CreateCollectionRequest {
+  string database = 1;
+  string collection = 2;
+  CreateCollectionOptions options = 3;
+}
+
+message CreateCollectionOptions {
+  int64 size = 1;
+  int64 max = 2;
+  mongorpc.Value validator = 3;
+  string validationLevel = 4;
+  string validationAction = 5;
+  mongorpc.Value storageEngine = 6;
+}
+
+message DropCollectionRequest {
+  string database = 1;
+  string collection = 2;
+}
+
+message ListCollectionsRequest {
+  string database = 1;
+}
+
+message ListIndexesRequest {
+  string database = 1;
+  string collection = 2;
+}
+
+message CreateIndexRequest {
+  string database = 1;
+  string collection = 2;
+  Index index = 3;
+}
+
+message Index {
+  // The name of the index
+  string name = 1;
+  // The keys to index
+  repeated IndexKey keys = 2;
+  // The unique flag
+  bool unique = 3;
+}
+
+message IndexKey {
+  // The field to index
+  string field = 1;
+  // The direction to index
+  IndexDirection direction = 2;
+}
+
+enum IndexDirection {
+  ASCENDING = 0;
+  DESCENDING = 1;
+}
+
+message DropIndexRequest {
+  string database = 1;
+  string collection = 2;
+  string index = 3;
+}
+
+// MongoRPC Admin Service
+service MongoRPCAdmin {
+  rpc ListDatabases(mongorpc.Empty) returns (mongorpc.Value);
+  rpc DropDatabase(DropDatabaseRequest) returns (mongorpc.Empty);
+  rpc CreateCollection(CreateCollectionRequest) returns (mongorpc.Empty);
+  rpc DropCollection(DropCollectionRequest) returns (mongorpc.Empty);
+  rpc ListCollections(ListCollectionsRequest) returns (mongorpc.Value);
+  rpc ListIndexes(ListIndexesRequest) returns (mongorpc.Value);
+  rpc CreateIndex(CreateIndexRequest) returns (mongorpc.Value);
+  rpc DropIndex(DropIndexRequest) returns (mongorpc.Empty);
+  // TODO: Add more admin methods here
+  // rpc CreateUser(mongorpc.Value) returns (mongorpc.Value);
+  // rpc DropUser(mongorpc.Value) returns (mongorpc.Value);
+  // rpc ListUsers(mongorpc.Value) returns (mongorpc.Value);
+  // rpc CreateRole(mongorpc.Value) returns (mongorpc.Value);
+  // rpc DropRole(mongorpc.Value) returns (mongorpc.Value);
+  // rpc ListRoles(mongorpc.Value) returns (mongorpc.Value);
+}
